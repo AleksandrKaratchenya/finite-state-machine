@@ -7,6 +7,7 @@ class FSM {
     if(!config)
             return Error;
        this.config=config;
+        this.init=this.config.initial;
     }
 
     /**
@@ -42,7 +43,9 @@ class FSM {
     /**
      * Resets FSM state to initial.
      */
-    reset() {}
+    reset() {
+    this.config.initial=this.init;
+    }
 
     /**
      * Returns an array of states for which there are specified event transition rules.
@@ -51,6 +54,22 @@ class FSM {
      * @returns {Array}
      */
     getStates(event) {
+             var arr=['normal', 'busy', 'hungry', 'sleeping'];
+        if(!event)
+            return arr;
+        if(event!='get_hungry'&&event!='study'&&event!='get_tired'&&event!='eat'&&event!='get_up')
+       return [];
+   var returns_arr=[];
+   for(var j=0,k;j<4;j++)
+   {
+    var i=arr[j];
+if(this.config.states[i].transitions[event])
+  {
+    returns_arr[k]=this.config.states[i];
+    k++;
+  }
+}
+return returns_arr;
   
     }
 
