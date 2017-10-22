@@ -5,6 +5,7 @@ class FSM {
      */
     constructor(config) {
         this.count=0;
+        this.countudo=0;
         if(!config)
             return Error;
        this.config=config;
@@ -31,6 +32,7 @@ class FSM {
        this.config.prev=this.config.initial;
         this.count++;
        this.config.initial=state; 
+       this.next= this.config.initial;
 
     }
 
@@ -46,6 +48,7 @@ class FSM {
         this.config.prev=a;
         this.count++;
        this.config.initial= this.config.states[a].transitions[event];
+       this.next= this.config.initial;
         //this.config.states.normal.transitions.event;
     }
 
@@ -53,8 +56,8 @@ class FSM {
      * Resets FSM state to initial.
      */
     reset() {
-        this.config.prev=this.config.initial;
-        this.count++;
+       // this.config.prev=this.config.initial;
+        //this.count++;
         this.config.initial=this.init;
 
     }
@@ -90,9 +93,12 @@ return returns_arr;
      * @returns {Boolean}
      */
     undo() {
+
      if(this.config.prev&&this.count)
      {
-        this.count--;
+       this.count--;
+       this.countudo++;
+        //this.next= this.config.initial;
         this.config.initial=this.config.prev;
         return true;
     }
@@ -105,7 +111,15 @@ return returns_arr;
      * @returns {Boolean}
      */
     redo() {
-        
+        if(this.next&&this.countudo)
+        {
+       this.countudo--;
+         this.config.initial=this.next;
+        return true;
+        }
+        if(this.countudo==0&&this.config.initial=='normal')
+          return false;
+      return false; 
     }
 
     /**
