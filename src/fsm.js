@@ -41,7 +41,7 @@ class FSM {
          if(!this.config.states[a].transitions[event])
             return Error;
         this.arr_state.push(this.config.states[a].transitions[event]);
-       this.current_position++;//=(this.arr_state.length-1);
+       this.current_position=(this.arr_state.length-1);
     }
 
     /**
@@ -85,12 +85,12 @@ return returns_arr;
      * @returns {Boolean}
      */
     undo() {
-     if(  this.current_position==0)
+     if(  (!(this.arr_state.length-1))
      {
         return false;
     }
      this.current_position--;
-    return true;;
+    return true;
     }
 
     /**
