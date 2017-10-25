@@ -99,8 +99,8 @@ return returns_arr;
      * @returns {Boolean}
      */
     redo() {
-        if( this.arr_state.length==1||this.current_position==(this.arr_state.length-1))
-        {
+        if( this.current_position==(this.arr_state.length-1))
+        {//this.arr_state.length==1||
         return false;
         }
         if(this.current_position<(this.arr_state.length-1))
