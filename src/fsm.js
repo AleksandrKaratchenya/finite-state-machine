@@ -4,13 +4,12 @@ class FSM {
      * @param config
      */
     constructor(config) {
-        this.count=0;
-        this.countudo=0;
+        this.arr_state=[];
         if(!config)
             return Error;
        this.config=config;
-       this.init=this.config.initial;
-
+       this.arr_state.push(this.config.initial);
+       this.current_position=(this.arr_state.length-1);
     }
 
     /**
@@ -18,8 +17,7 @@ class FSM {
      * @returns {String}
      */
     getState() {
-        
-        return this.config.initial;
+        return this.arr_state[this.current_position];
     }
 
     /**
@@ -28,12 +26,9 @@ class FSM {
      */
     changeState(state) {
       if(state!='normal'&&state!='busy'&&state!='sleeping'&&state!='hungry')
-       return Error;
-       this.config.prev=this.config.initial;
-        this.count++;
-       this.config.initial=state; 
-       this.next= this.config.initial;
-
+       return Error;     
+      this.arr_state.push(state);      
+      this.current_position=(this.arr_state.length-1);      
     }
 
     /**
@@ -42,14 +37,11 @@ class FSM {
      */
     trigger(event) {
         //if(this.initial=='normal')
-        var a=this.config.initial;
+        var a=this.arr_state[this.current_position];
          if(!this.config.states[a].transitions[event])
             return Error;
-        this.config.prev=a;
-        this.count++;
-       this.config.initial= this.config.states[a].transitions[event];
-       this.next= this.config.initial;
-        //this.config.states.normal.transitions.event;
+        this.arr_state.push(this.config.states[a].transitions[event]);
+       this.current_position=(this.arr_state.length-1);
     }
 
     /**
@@ -58,7 +50,7 @@ class FSM {
     reset() {
        // this.config.prev=this.config.initial;
         //this.count++;
-        this.config.initial=this.init;
+        this.current_position=0;
 
     }
 
@@ -93,16 +85,12 @@ return returns_arr;
      * @returns {Boolean}
      */
     undo() {
-
-     if(this.config.prev&&this.count)
+     if(  this.current_position==0)
      {
-       this.count--;
-       this.countudo++;
-        //this.next= this.config.initial;
-        this.config.initial=this.config.prev;
-        return true;
+        return false;
     }
-    return false;
+     this.current_position--;
+    return true;;
     }
 
     /**
@@ -111,21 +99,24 @@ return returns_arr;
      * @returns {Boolean}
      */
     redo() {
-        if(this.next&&this.countudo)
+        if( this.arr_state.length==1||this.current_position==(this.arr_state.length-1))
         {
-       this.countudo--;
-         this.config.initial=this.next;
-        return true;
+        return false;
         }
-        if(this.countudo==0&&this.config.initial=='normal')
-          return false;
-      return false; 
+        if(this.current_position<(this.arr_state.length-1))
+        {
+        this.current_position++;
+        return true;}
     }
 
     /**
      * Clears transition history
      */
-    clearHistory() {}
+    clearHistory() {
+      this.arr_state=[];
+      this.current_position=0;
+      this.arr_state.push(this.config.initial);
+    }
 }
 
 module.exports = FSM;
