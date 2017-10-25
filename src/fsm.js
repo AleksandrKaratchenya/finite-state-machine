@@ -41,7 +41,7 @@ class FSM {
          if(!this.config.states[a].transitions[event])
             return Error;
         this.arr_state.push(this.config.states[a].transitions[event]);
-       this.current_position=(this.arr_state.length-1);
+       this.current_position++;//=(this.arr_state.length-1);
     }
 
     /**
