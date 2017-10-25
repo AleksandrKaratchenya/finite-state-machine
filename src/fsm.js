@@ -85,7 +85,7 @@ return returns_arr;
      * @returns {Boolean}
      */
     undo() {
-     if(  (this.arr_state.length-1)==0)
+     if(  !this.current_position )
      {
         return false;
     }
