@@ -103,10 +103,11 @@ return returns_arr;
         {//this.arr_state.length==1||
         return false;
         }
-        if(this.current_position<(this.arr_state.length-1))
+        if(((this.arr_state.length)-this.current_position)>=1)
         {
         this.current_position++;
         return true;}
+        else return false;
     }
 
     /**
