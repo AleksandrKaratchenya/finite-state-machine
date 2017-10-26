@@ -26,7 +26,9 @@ class FSM {
      */
     changeState(state) {
       if(state!='normal'&&state!='busy'&&state!='sleeping'&&state!='hungry')
-       return Error;     
+       return Error;    
+         if(state==this.arr_state[this.current_position])
+          return;
       this.arr_state.push(state);      
       this.current_position=(this.arr_state.length-1);      
     }
