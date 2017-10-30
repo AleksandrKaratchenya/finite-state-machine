@@ -4,10 +4,14 @@ class FSM {
      * @param config
      */
     constructor(config) {
-        this.arr_state=[];
+        //this.count=0;
+        //this.countudo=0;
+       
         if(!config)
-            return Error;
+            return Error; 
+       this.arr_state=[];
        this.config=config;
+       //this.init=this.config.initial;
        this.arr_state.push(this.config.initial);
        this.current_position=(this.arr_state.length-1);
     }
@@ -26,11 +30,17 @@ class FSM {
      */
     changeState(state) {
       if(state!='normal'&&state!='busy'&&state!='sleeping'&&state!='hungry')
-       return Error;    
-         if(state==this.arr_state[this.current_position])
-          return;
-      this.arr_state.push(state);      
-      this.current_position=(this.arr_state.length-1);      
+       return Error;
+      // this.config.prev=this.config.initial;
+       // this.count++;
+       if(state==this.arr_state[this.current_position])
+        return;
+
+      this.arr_state.push(state);
+       //this.config.initial=state; 
+      this.current_position=(this.arr_state.length-1);
+      // this.next= this.config.initial;
+
     }
 
     /**
@@ -39,11 +49,20 @@ class FSM {
      */
     trigger(event) {
         //if(this.initial=='normal')
+        if(event!='get_hungry'&&event!='study'&&event!='eat'&&event!='get_up'&&event!='get_tired')
+          return Error;
         var a=this.arr_state[this.current_position];
          if(!this.config.states[a].transitions[event])
             return Error;
+       // this.config.prev=a;
+        //this.count++;
+       //this.config.initial= this.config.states[a].transitions[event];
         this.arr_state.push(this.config.states[a].transitions[event]);
+         
+         //this.arr_state.push(this.config.initial);
        this.current_position=(this.arr_state.length-1);
+       //this.next= this.config.initial;
+        //this.config.states.normal.transitions.event;
     }
 
     /**
@@ -66,7 +85,7 @@ class FSM {
         var arr=['normal', 'busy', 'hungry', 'sleeping'];
         if(!event)
             return arr;
-        if(event!='get_hungry'&&event!='study'&&event!='eat'&&event!='get_up')
+        if(event!='get_hungry'&&event!='study'&&event!='eat'&&event!='get_up'&&event!='get_tired')
        return [];
    var returns_arr=[];
    for(let j=0, k=0;j<4;j++)
@@ -87,12 +106,18 @@ return returns_arr;
      * @returns {Boolean}
      */
     undo() {
-     if(  !this.current_position )
+//var a=this.arr_state.length;
+     if(this.current_position==0)
      {
+       //this.count--;
+       //this.countudo++;
+        //this.next= this.config.initial;
+        //this.config.initial=this.config.prev;
         return false;
     }
+    //this.config.initial=this.arr_state[this.current_position];
      this.current_position--;
-    return true;
+    return true;;
     }
 
     /**
@@ -101,15 +126,15 @@ return returns_arr;
      * @returns {Boolean}
      */
     redo() {
-        if( this.current_position==(this.arr_state.length-1))
-        {//this.arr_state.length==1||
+        if( this.arr_state.length==1||this.current_position==(this.arr_state.length-1))
+        {
         return false;
         }
-        if(((this.arr_state.length)-this.current_position)>=1)
+        if(this.current_position<(this.arr_state.length-1))
         {
+        //this.config.initial=this.arr_state[this.current_position+1];
         this.current_position++;
         return true;}
-        else return false;
     }
 
     /**
