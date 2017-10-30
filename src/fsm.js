@@ -33,8 +33,8 @@ class FSM {
        return Error;
       // this.config.prev=this.config.initial;
        // this.count++;
-       if(state==this.arr_state[this.current_position])
-        return;
+      // if(state==this.arr_state[this.current_position])
+       // return;
 
       this.arr_state.push(state);
        //this.config.initial=state; 
