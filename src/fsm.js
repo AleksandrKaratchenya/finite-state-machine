@@ -4,16 +4,14 @@ class FSM {
      * @param config
      */
     constructor(config) {
-        //this.count=0;
-        //this.countudo=0;
-       
         if(!config)
-            return Error; 
+        return Error; 
+
        this.arr_state=[];
        this.config=config;
        //this.init=this.config.initial;
        this.arr_state.push(this.config.initial);
-       this.current_position=(this.arr_state.length-1);
+       this.current_position=0;//(this.arr_state.length-1);
     }
 
     /**
@@ -33,12 +31,13 @@ class FSM {
        return Error;
       // this.config.prev=this.config.initial;
        // this.count++;
-      // if(state==this.arr_state[this.current_position])
-       // return;
-
-      this.arr_state.push(state);
+       //if(state==this.arr_state[this.current_position])
+        //return;
+//this.arr_state.push(state);
+      var t=this.current_position+1;
+      this.arr_state.splice(t,this.arr_state.length-t,state);
        //this.config.initial=state; 
-      this.current_position=(this.arr_state.length-1);
+      this.current_position++;//=(this.arr_state.length-1);
       // this.next= this.config.initial;
 
     }
@@ -57,10 +56,12 @@ class FSM {
        // this.config.prev=a;
         //this.count++;
        //this.config.initial= this.config.states[a].transitions[event];
-        this.arr_state.push(this.config.states[a].transitions[event]);
+        var t=this.current_position+1;
+        this.arr_state.splice(t,this.arr_state.length-t,this.config.states[a].transitions[event]);
+        //this.arr_state.push(this.config.states[a].transitions[event]);
          
          //this.arr_state.push(this.config.initial);
-       this.current_position=(this.arr_state.length-1);
+       this.current_position++;//=(this.arr_state.length-1);
        //this.next= this.config.initial;
         //this.config.states.normal.transitions.event;
     }
@@ -88,9 +89,10 @@ class FSM {
         if(event!='get_hungry'&&event!='study'&&event!='eat'&&event!='get_up'&&event!='get_tired')
        return [];
    var returns_arr=[];
+   var i;
    for(let j=0, k=0;j<4;j++)
    {
-    var i=arr[j];
+    i=arr[j];
 if(this.config.states[i].transitions[event])
   {
     returns_arr[k]=i;
@@ -109,15 +111,11 @@ return returns_arr;
 //var a=this.arr_state.length;
      if(this.current_position==0)
      {
-       //this.count--;
-       //this.countudo++;
-        //this.next= this.config.initial;
-        //this.config.initial=this.config.prev;
         return false;
     }
     //this.config.initial=this.arr_state[this.current_position];
      this.current_position--;
-    return true;;
+    return true;
     }
 
     /**
@@ -126,15 +124,16 @@ return returns_arr;
      * @returns {Boolean}
      */
     redo() {
-        if( this.arr_state.length==1||this.current_position==(this.arr_state.length-1))
+        if( this.current_position==(this.arr_state.length-1))
         {
         return false;
         }
-        if(this.current_position<(this.arr_state.length-1))
-        {
+        //if(this.current_position<(this.arr_state.length-1))
+       // {
         //this.config.initial=this.arr_state[this.current_position+1];
         this.current_position++;
-        return true;}
+        return true;
+        //}
     }
 
     /**
@@ -142,8 +141,8 @@ return returns_arr;
      */
     clearHistory() {
       this.arr_state=[];
-      this.current_position=0;
       this.arr_state.push(this.config.initial);
+      this.current_position=0;
     }
 }
 
