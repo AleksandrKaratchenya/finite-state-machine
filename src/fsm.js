@@ -143,7 +143,7 @@ return returns_arr;
     clearHistory() {
       this.arr_state=[];
       this.current_position=0;
-      this.arr_state.push(this.config.initial);
+      //this.arr_state.push(this.config.initial);
     }
 }
 
