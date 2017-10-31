@@ -5,7 +5,7 @@ class FSM {
      */
     constructor(config) {
         if(!config)
-        return Error; 
+      throw new Error();
 
        this.arr_state=[];
        this.config=config;
@@ -28,7 +28,7 @@ class FSM {
      */
     changeState(state) {
       if(state!='normal'&&state!='busy'&&state!='sleeping'&&state!='hungry')
-       return Error;
+   throw new Error();
       // this.config.prev=this.config.initial;
        // this.count++;
        //if(state==this.arr_state[this.current_position])
@@ -49,10 +49,10 @@ class FSM {
     trigger(event) {
         //if(this.initial=='normal')
         if(event!='get_hungry'&&event!='study'&&event!='eat'&&event!='get_up'&&event!='get_tired')
-          return Error;
+    throw new Error();
         var a=this.arr_state[this.current_position];
          if(!this.config.states[a].transitions[event])
-            return Error;
+           throw new Error();
        // this.config.prev=a;
         //this.count++;
        //this.config.initial= this.config.states[a].transitions[event];
